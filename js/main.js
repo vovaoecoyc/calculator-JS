@@ -1,10 +1,9 @@
 $(document).ready(function(){
-    
     //console.log($.fn.jquery);
     
     $('table tbody tr:eq(4) td:eq(1) input').prop("disabled", true);
     $('table tbody tr:eq(4) td:eq(2) input').prop("disabled", true);
-    $('table tbody tr:eq(4) td:eq(3) input').prop("disabled", true);
+    //$('table tbody tr:eq(4) td:eq(3) input').prop("disabled", true);
     
     var operations = {
         add:        "+",
@@ -79,7 +78,6 @@ $(document).ready(function(){
         
     }
     
-    //console.log(85.45);
     var buttons = document.querySelectorAll('input[type=button]');
     var flag = true;
     for(var i = 0; i < buttons.length; i++){
@@ -149,7 +147,6 @@ $(document).ready(function(){
                     else {
                         if(e.target.value === operations.sub){
                             document.querySelector('input[type=text]').value = e.target.value;
-                            //if(localStorage.getItem('sign') )
                             localStorage.setItem('sign', e.target.value);
                         }
                         else{
@@ -159,9 +156,7 @@ $(document).ready(function(){
                     
                     //building the array of data for calculate
                     localStorage.setItem('sign', e.target.value);
-                });
-                
-                
+                });   
         }
         else if(buttons[i].value === subOperations.equally){
             
@@ -199,7 +194,7 @@ $(document).ready(function(){
                     data[0] = -data[0];
                 }
                 
-                //check existence sings priority in data array
+                //check existence signs priority in data array
                 var haveFirst = false; haveSecond = false;
                 for(var k = 0; k < data.length; ++k){
                     if(checkOnOperations(data[k], operations)){
@@ -243,8 +238,6 @@ $(document).ready(function(){
                     }
                 }
                 
-                
-                
                 document.querySelector('input[type=text]').value = Math.round(result * 100000) / 100000;
                 
                 //log
@@ -273,25 +266,46 @@ $(document).ready(function(){
             
                 buttons[i].addEventListener("click", function(e){
                 
-                    var inputStr, locSign, locOperand;
+                    /*console.log("first");
+                    console.log("sign: "+localStorage.getItem('sign'));
+                    console.log("operand: "+localStorage.getItem('operand'));
+                    console.log(JSON.stringify(data));*/
+                    
+                    var inputStr, locOperand;
+                    
                     inputStr = document.querySelector('input[type=text]').value;
-                    inputStr = inputStr.slice(0, inputStr.length - 1);
-                    document.querySelector('input[type=text]').value = inputStr;
-
-                    if(checkOnOperations(inputStr[inputStr.length - 1], operations)){
-                        locSign = localStorage.getItem('sign');
-                        locSign = locSign.slice(0, locSign.length - 1);
-                        localStorage.setItem('sign', locSign);
+                    document.querySelector('input[type=text]').value = inputStr.slice(0, inputStr.length - 1);;
+                    
+                    if(localStorage.getItem('sign') !== ''){
+                        localStorage.setItem('sign', '');
+                    }
+                    else if(localStorage.getItem('operand') !== ''){
+                        locOperand = localStorage.getItem('operand');
+                        if(locOperand.length > 1){
+                            localStorage.setItem('operand', locOperand.slice(0, locOperand.length - 1));
+                        }
+                        else{
+                            localStorage.setItem('operand', '');
+                        }
                     }
                     else{
-                        locOperand = localStorage.getItem('operand');
-                        locOperand = locOperand.slice(0, locOperand.length - 1);
-                        localStorage.setItem('operand', locOperand);
+                        if(data[data.length - 1] > 1){
+                            locOperand = data[data.length - 1];
+                            data[data.length - 1] = locOperand.slice(0, locOperand.length - 1);
+                        }
+                        else{
+                            data.pop();
+                        }
                     }
+                    
+                    
+                    /*console.log("second");
+                    console.log("sign: "+localStorage.getItem('sign'));
+                    console.log("operand: "+localStorage.getItem('operand'));
+                    console.log(JSON.stringify(data));*/
             });
         }
             
     }
-    
-    
+     
 });
