@@ -1,0 +1,27 @@
+
+table {
+    margin: auto;
+}
+
+td{
+    text-align: center;
+}
+
+tr{
+    width: 300px;
+}
+
+input[type="text"]{
+    margin-left: 34.7%;
+    width: 400px;
+    height: 50px;
+    padding: 5px;
+    text-align: right;
+    font-size: 20px;
+}
+
+input[type="button"]{
+    width:  100px;
+    height: 50px;
+    font-size: 20px;
+}
